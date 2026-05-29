@@ -2,42 +2,41 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="About — Fork & Found">
+<Base title="About — Halal Takeout Tasmania">
   <div class="about">
     <p class="eyebrow">About this site</p>
-    <h1>NO AGENDA.<br/><span>JUST FOOD.</span></h1>
+    <h1>COMMUNITY VERIFIED.<br/>HONESTLY LISTED.</h1>
 
     <div class="about-card">
-      <p>A personal record of restaurants I've actually eaten at, paid for myself, and formed genuine opinions about. No PR dinners, no sponsored posts, no affiliate links.</p>
-      <p>Ratings are out of 10 and entirely subjective — they reflect value for money, execution, and how much I'd want to go back, not some universal quality score.</p>
-      <p>Focused on Melbourne, occasionally elsewhere.</p>
+      <p>A personal guide to halal food in Tasmania — built for the community, by someone in it. Every listing is verified through word of mouth, customer reviews, and halal certificates where available.</p>
+      <p>This isn't an official certification body. Always confirm with the restaurant directly before ordering, especially if you have strict dietary requirements.</p>
+      <p>Focused on Hobart and greater Tasmania. New listings added as discovered.</p>
+      <p>To nominate a restaurant or flag incorrect information, reach out at <a href="mailto:email@example.com">email@example.com</a></p>
     </div>
   </div>
 </Base>
 
 <style>
-  .about { max-width: 600px; }
+  .about { max-width: 620px; }
 
   .eyebrow {
     font-size: 0.72rem;
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--green);
+    color: var(--grey-mid);
     margin-bottom: 0.5rem;
   }
 
   h1 {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 8vw, 5.5rem);
-    line-height: 0.95;
-    letter-spacing: 0.04em;
-    color: var(--ink);
-    margin-bottom: 2rem;
-    text-shadow: 3px 3px 0 rgba(46,111,64,0.12);
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    color: var(--black);
+    margin-bottom: 1.75rem;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.08);
   }
-
-  h1 span { color: var(--green); }
 
   .about-card {
     background: var(--white);
@@ -52,8 +51,14 @@ import Base from '../layouts/Base.astro';
 
   .about-card p {
     font-family: var(--font-serif);
-    font-size: 1.05rem;
+    font-size: 1rem;
     line-height: 1.8;
-    color: var(--ink-mid);
+    color: var(--grey-dark);
+  }
+
+  .about-card a {
+    color: var(--black);
+    text-decoration: underline;
+    font-weight: 500;
   }
 </style>

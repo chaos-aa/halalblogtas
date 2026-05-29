@@ -3,7 +3,7 @@ interface Props {
   title: string;
   description?: string;
 }
-const { title, description = "Honest restaurant reviews. No ads, no comps." } = Astro.props;
+const { title, description = "A personal list of halal restaurants around Tasmania." } = Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -17,38 +17,38 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <style is:global>
     :root {
-      --green:        #2e6f40;
-      --green-light:  #4e8f60;
-      --green-dark:   #1a4a28;
-      --cream:        #f8f5f0;
-      --white:        #ffffff;
-      --ink:          #1a1a1a;
-      --ink-mid:      #444;
-      --ink-soft:     #777;
-      --border:       #ddd;
-      --card-shadow:  5px 5px 0px rgba(46,111,64,0.18);
+      --black:       #111111;
+      --charcoal:    #2a2a2a;
+      --grey-dark:   #444444;
+      --grey-mid:    #777777;
+      --grey-light:  #cccccc;
+      --cream:       #f5f2ed;
+      --cream-dark:  #ede9e2;
+      --white:       #ffffff;
+      --accent:      #111111;
+      --border:      #d0cbc2;
+      --card-shadow: 5px 5px 0px rgba(0,0,0,0.12);
       --font-display: 'Bebas Neue', 'Franklin Gothic Medium', Arial, sans-serif;
       --font-serif:   'Lora', Georgia, serif;
       --font-body:    'DM Sans', Helvetica, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
       background-color: var(--cream);
-      color: var(--ink);
+      color: var(--black);
       font-family: var(--font-body);
       font-size: 16px;
       line-height: 1.7;
       display: flex;
       justify-content: center;
+      margin: 15px auto;
       min-height: 100vh;
-      margin: 0;
     }
 
-    #site-wrapper {
+    #container {
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -61,9 +61,8 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
 
     /* ── HEADER ── */
     .site-header {
-      padding: 1.5rem 0 0;
-      border-bottom: 3px solid var(--ink);
-      margin-bottom: 0;
+      padding: 1.25rem 0 0;
+      border-bottom: 3px solid var(--black);
     }
 
     .site-header-inner {
@@ -75,23 +74,21 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
 
     .site-logo {
       font-family: var(--font-display);
-      font-size: clamp(2.8rem, 6vw, 4.5rem);
-      letter-spacing: 0.04em;
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      letter-spacing: 0.05em;
       line-height: 1;
-      color: var(--ink);
-    }
-
-    .site-logo span {
-      color: var(--green);
+      color: var(--black);
     }
 
     .site-tagline {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 500;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--ink-soft);
-      padding-bottom: 0.4rem;
+      color: var(--grey-mid);
+      padding-bottom: 0.3rem;
+      text-align: right;
+      max-width: 22ch;
     }
 
     /* ── NAV ── */
@@ -99,7 +96,7 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: var(--green);
+      background-color: var(--black);
     }
 
     .site-nav ul {
@@ -113,7 +110,7 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
 
     .site-nav a {
       display: inline-block;
-      color: #d4edda;
+      color: #ccc;
       text-transform: uppercase;
       font-size: 0.78rem;
       font-weight: 500;
@@ -125,13 +122,36 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
 
     .site-nav a:hover,
     .site-nav a.active {
-      background-color: var(--green-dark);
-      color: #fff;
+      background-color: var(--charcoal);
+      color: var(--white);
+    }
+
+    /* ── DISCLAIMER BANNER ── */
+    .disclaimer {
+      background-color: var(--cream-dark);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--black);
+      border-radius: 4px;
+      padding: 0.9rem 1.1rem;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .disclaimer strong {
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .disclaimer a {
+      color: var(--black);
+      text-decoration: underline;
     }
 
     /* ── MAIN ── */
     main {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       margin-bottom: 2rem;
       flex: 1;
     }
@@ -144,7 +164,7 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
       font-size: 0.78rem;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--ink-soft);
+      color: var(--grey-mid);
       margin-top: auto;
     }
 
@@ -156,41 +176,46 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
       bottom: 1.25rem;
       width: 2.75rem;
       height: 2.75rem;
-      background-color: var(--green);
+      background-color: var(--black);
       border-radius: 6px;
-      color: #d4edda;
+      color: #ccc;
       align-items: center;
       justify-content: center;
       font-size: 1.1rem;
       text-decoration: none;
-      opacity: 0.7;
+      opacity: 0.65;
       transition: opacity 0.2s, background 0.2s;
       z-index: 200;
     }
 
-    #topBtn:hover { opacity: 1; background-color: var(--green-dark); }
+    #topBtn:hover { opacity: 1; background-color: var(--charcoal); }
 
     @media (max-width: 600px) {
-      .site-header-inner { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
-      .site-tagline { padding-bottom: 0; }
+      .site-header-inner { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+      .site-tagline { text-align: left; }
+      #container { padding: 0 12px 2rem; }
     }
   </style>
 </head>
 <body>
-  <div id="site-wrapper">
+  <div id="container">
 
     <header class="site-header">
       <div class="site-header-inner">
-        <a href="/" class="site-logo">FORK<span>&</span>FOUND</a>
-        <span class="site-tagline">Honest reviews &bull; Melbourne</span>
+        <a href="/" class="site-logo">HALAL TAKEOUT TASMANIA</a>
+        <span class="site-tagline">A personal list of halal restaurants around Tasmania</span>
       </div>
       <nav class="site-nav">
         <ul>
-          <li><a href="/" id="nav-home">All Reviews</a></li>
+          <li><a href="/" id="nav-home">All Restaurants</a></li>
           <li><a href="/about" id="nav-about">About</a></li>
         </ul>
       </nav>
     </header>
+
+    <div class="disclaimer">
+      <strong>Please note:</strong> All restaurants verified through word of mouth, reviews, and halal certificates where possible. Please use your own judgement and ask the restaurants beforehand to confirm beyond a shadow of doubt. If any restaurant wants to refute the claims of selling halal food, or if anyone wants to nominate a halal option, please reach out at <a href="mailto:email@example.com">email@example.com</a>
+    </div>
 
     <main>
       <slot />
@@ -199,13 +224,12 @@ const { title, description = "Honest restaurant reviews. No ads, no comps." } = 
     <a href="#" id="topBtn" title="Scroll to top">↑</a>
 
     <footer>
-      <p>Fork &amp; Found &mdash; Personal opinions. No ads. No sponsored content.</p>
+      <p>Halal Takeout Tasmania &mdash; Community verified. Not officially certified.</p>
     </footer>
 
   </div>
 
   <script>
-    // Highlight current nav link
     const path = window.location.pathname;
     if (path === '/' || path.startsWith('/restaurants')) {
       document.getElementById('nav-home')?.classList.add('active');

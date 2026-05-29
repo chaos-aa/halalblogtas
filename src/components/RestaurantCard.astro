@@ -32,7 +32,7 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
 
   <div class="card-footer">
     <div class="tags">
-      {tags.slice(0, 3).map(tag => (
+      {tags.slice(0, 4).map(tag => (
         <span class="tag">{tag}</span>
       ))}
     </div>
@@ -44,7 +44,7 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
   .card {
     background: var(--white);
     border-radius: 15px;
-    padding: 1.25rem;
+    padding: 1.25rem 1.4rem;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
@@ -56,7 +56,7 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
 
   .card:hover {
     transform: translateY(-3px);
-    box-shadow: 6px 8px 0px rgba(46,111,64,0.28);
+    box-shadow: 7px 9px 0px rgba(0,0,0,0.18);
   }
 
   .card-top {
@@ -68,9 +68,9 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
   .card-labels { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
 
   .cuisine-tag {
-    background-color: var(--green);
-    color: #d4edda;
-    font-size: 0.7rem;
+    background-color: var(--black);
+    color: #ddd;
+    font-size: 0.68rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -81,8 +81,12 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
   .price-tag {
     font-size: 0.78rem;
     font-weight: 600;
-    color: var(--ink-mid);
+    color: var(--grey-mid);
     letter-spacing: 0.04em;
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem;
   }
 
   .rating {
@@ -94,41 +98,41 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
 
   .rating-num {
     font-family: var(--font-display);
-    font-size: 2.2rem;
+    font-size: 2.4rem;
     line-height: 1;
   }
 
   .rating-denom {
     font-size: 0.72rem;
-    color: var(--ink-soft);
+    color: var(--grey-mid);
   }
 
-  .rating--high .rating-num { color: var(--green); }
-  .rating--mid  .rating-num { color: #b5860d; }
-  .rating--low  .rating-num { color: #999; }
+  .rating--high .rating-num { color: var(--black); }
+  .rating--mid  .rating-num { color: var(--grey-dark); }
+  .rating--low  .rating-num { color: var(--grey-mid); }
 
   .card-name {
     font-family: var(--font-display);
-    font-size: 1.65rem;
+    font-size: 1.75rem;
     letter-spacing: 0.03em;
     line-height: 1.1;
-    color: var(--ink);
+    color: var(--black);
     margin-top: 0.2rem;
   }
 
   .card-suburb {
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--grey-mid);
   }
 
   .card-highlight {
     font-family: var(--font-serif);
     font-style: italic;
     font-size: 0.88rem;
-    color: var(--ink-mid);
+    color: var(--grey-dark);
     line-height: 1.5;
     margin-top: 0.15rem;
   }
@@ -137,7 +141,7 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.6rem;
+    margin-top: 0.65rem;
     flex-wrap: wrap;
     gap: 0.4rem;
   }
@@ -146,19 +150,25 @@ const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
 
   .tag {
     display: inline-block;
-    background-color: #222;
-    color: #fff;
-    font-size: 0.7rem;
-    border-radius: 1rem;
+    background-color: var(--cream-dark);
+    color: var(--grey-dark);
+    font-size: 0.68rem;
+    font-weight: 500;
+    border-radius: 4px;
+    border: 1px solid var(--border);
     padding: 0.2rem 0.55rem;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .return-badge {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--green);
+    color: var(--grey-mid);
+    border: 1px solid var(--grey-light);
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem;
   }
 </style>

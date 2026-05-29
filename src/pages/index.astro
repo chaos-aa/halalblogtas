@@ -11,15 +11,14 @@ const suburbs  = [...new Set(sorted.map(r => r.data.suburb))].sort();
 const prices   = ['$', '$$', '$$$', '$$$$'];
 ---
 
-<Base title="Fork & Found — Melbourne Restaurant Reviews">
+<Base title="Halal Takeout Tasmania — Halal Restaurants in Tasmania">
 
   <div class="page-header">
-    <p class="eyebrow">Melbourne &bull; {sorted.length} Reviews</p>
-    <h1>THE PLACE<br/><span>TO EAT</span></h1>
-    <p class="subhead">No ads. No sponsored meals. Just honest food.</p>
+    <p class="eyebrow">Tasmania &bull; {sorted.length} Listings</p>
+    <h1 class="site-motto">YOUR GUIDE TO HALAL FOOD IN TASMANIA</h1>
   </div>
 
-  <div class="filters">
+  <div id="filters">
     <div class="filter-group">
       <span class="filter-label">Cuisine</span>
       <div class="filter-pills">
@@ -52,10 +51,11 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     </select>
   </div>
 
-  <div class="grid" id="grid">
+  <div id="stories">
     {sorted.map((r, i) => (
       <div
-        class={`grid-item${i === 0 ? ' grid-item--featured' : ''}`}
+        class="grid-item"
+        id={i === 0 ? 'firstStory' : undefined}
         data-cuisine={r.data.cuisine}
         data-suburb={r.data.suburb}
         data-price={r.data.price}
@@ -83,11 +83,10 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
 </Base>
 
 <style>
-  /* Page header */
   .page-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
     border-bottom: 2px solid var(--border);
-    padding-bottom: 1.5rem;
   }
 
   .eyebrow {
@@ -95,40 +94,32 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--green);
-    margin-bottom: 0.5rem;
+    color: var(--grey-mid);
+    margin-bottom: 0.4rem;
   }
 
-  .page-header h1 {
+  .site-motto {
     font-family: var(--font-display);
-    font-size: clamp(3.5rem, 8vw, 6rem);
-    line-height: 0.95;
-    letter-spacing: 0.04em;
-    color: var(--ink);
-    text-shadow: 3px 3px 0 rgba(46,111,64,0.15);
-    margin-bottom: 0.75rem;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    color: var(--black);
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 1px 2px rgba(0,0,0,0.15);
   }
 
-  .page-header h1 span { color: var(--green); }
-
-  .subhead {
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-    font-style: italic;
-    font-family: var(--font-serif);
-  }
-
-  /* Filters */
-  .filters {
+  /* Filters — matches your sports site's nav/filter feel */
+  #filters {
     background: var(--white);
-    border-radius: 15px;
+    border-radius: 5px;
     border: 1px solid var(--border);
     box-shadow: var(--card-shadow);
-    padding: 1.25rem 1.5rem;
+    padding: 1rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
-    margin-bottom: 1.25rem;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
   }
 
   .filter-group {
@@ -143,7 +134,7 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--grey-mid);
     min-width: 4.5rem;
   }
 
@@ -151,19 +142,21 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
 
   .pill {
     background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 1rem;
-    padding: 0.25rem 0.7rem;
-    font-size: 0.75rem;
+    border: 1px solid var(--grey-light);
+    border-radius: 4px;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.73rem;
     font-family: var(--font-body);
     font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     cursor: pointer;
-    color: var(--ink-mid);
+    color: var(--grey-dark);
     transition: all 0.15s;
   }
 
-  .pill:hover { border-color: var(--green); color: var(--green); }
-  .pill.active { background: var(--green); border-color: var(--green); color: #fff; }
+  .pill:hover { border-color: var(--black); color: var(--black); }
+  .pill.active { background: var(--black); border-color: var(--black); color: var(--white); }
 
   /* Sort bar */
   .sort-bar {
@@ -174,39 +167,45 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
   }
 
   .results-count {
-    font-size: 0.8rem;
-    color: var(--ink-soft);
+    font-size: 0.78rem;
+    color: var(--grey-mid);
     text-transform: uppercase;
     letter-spacing: 0.08em;
   }
 
   .sort-select {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 0.35rem 0.7rem;
-    color: var(--ink);
+    color: var(--black);
     cursor: pointer;
   }
 
-  /* Grid */
-  .grid {
+  /* Grid — mirrors your sports site's #stories grid */
+  #stories {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
   }
 
-  .grid-item--featured {
+  /* Featured first card — mirrors your #firstStory */
+  #firstStory {
     grid-column: 1 / -1;
   }
 
-  .grid-item--featured .card {
+  #firstStory .card {
     flex-direction: row;
-    gap: 1.5rem;
+    gap: 2rem;
     align-items: flex-start;
-    border: 3px solid var(--green);
+    border: 3px solid var(--black);
+    background: var(--white);
+  }
+
+  #firstStory .card-name {
+    font-size: 2.4rem;
   }
 
   .grid-item.hidden { display: none; }
@@ -214,14 +213,14 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
   .empty-state {
     text-align: center;
     padding: 4rem 0;
-    color: var(--ink-soft);
+    color: var(--grey-mid);
     font-style: italic;
     font-family: var(--font-serif);
   }
 
   @media (max-width: 700px) {
-    .grid { grid-template-columns: 1fr; }
-    .grid-item--featured .card { flex-direction: column; }
+    #stories { grid-template-columns: 1fr; }
+    #firstStory .card { flex-direction: column; }
     .filter-group { flex-direction: column; align-items: flex-start; }
   }
 </style>
@@ -259,7 +258,7 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
 
   document.getElementById('sort-select')?.addEventListener('change', e => {
     const val = (e.target as HTMLSelectElement).value;
-    const grid = document.getElementById('grid')!;
+    const grid = document.getElementById('stories')!;
     const items = [...grid.querySelectorAll<HTMLElement>('.grid-item')];
     items.sort((a, b) => {
       if (val === 'rating') return Number(b.dataset.rating) - Number(a.dataset.rating);
