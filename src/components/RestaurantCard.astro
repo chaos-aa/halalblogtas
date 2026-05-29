@@ -1,0 +1,163 @@
+---
+interface Props {
+  name: string;
+  suburb: string;
+  cuisine: string;
+  rating: number;
+  price: string;
+  highlight: string;
+  tags: string[];
+  slug: string;
+  would_return: boolean;
+}
+
+const { name, suburb, cuisine, rating, price, highlight, tags, slug, would_return } = Astro.props;
+
+const ratingColor = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
+---
+
+<a href={`/restaurants/${slug}`} class="card">
+  <div class="card-header">
+    <div class="card-meta">
+      <span class="cuisine">{cuisine}</span>
+      <span class="price">{price}</span>
+    </div>
+    <div class={`rating rating--${ratingColor}`}>
+      <span class="rating-num">{rating}</span>
+      <span class="rating-denom">/10</span>
+    </div>
+  </div>
+
+  <h2 class="card-name">{name}</h2>
+  <p class="card-suburb">{suburb}</p>
+  <p class="card-highlight">{highlight}</p>
+
+  <div class="card-footer">
+    <div class="tags">
+      {tags.slice(0, 3).map(tag => <span class="tag">{tag}</span>)}
+    </div>
+    {would_return && <span class="return-badge">↩ Would return</span>}
+  </div>
+</a>
+
+<style>
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(26,23,20,0.1);
+    border-color: var(--rust);
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .cuisine {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+  }
+
+  .price {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .rating {
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+  }
+
+  .rating-num {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .rating-denom {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+  }
+
+  .rating--high .rating-num { color: var(--rust); }
+  .rating--mid .rating-num  { color: var(--gold); }
+  .rating--low .rating-num  { color: var(--ink-soft); }
+
+  .card-name {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 0.25rem;
+  }
+
+  .card-suburb {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .card-highlight {
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-top: 0.25rem;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  .tag {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .return-badge {
+    font-size: 0.72rem;
+    color: var(--rust);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+</style>

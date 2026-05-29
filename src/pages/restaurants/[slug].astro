@@ -1,0 +1,222 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const restaurants = await getCollection('restaurants');
+  return restaurants.map(r => ({
+    params: { slug: r.slug },
+    props: { restaurant: r },
+  }));
+}
+
+const { restaurant } = Astro.props;
+const { Content } = await restaurant.render();
+const d = restaurant.data;
+
+const ratingColor = d.rating >= 8 ? '#c4622d' : d.rating >= 6 ? '#c9a84c' : '#888';
+
+const dateFormatted = d.visited.toLocaleDateString('en-AU', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+---
+
+<Base title={`${d.name} — Well & Truly Eaten`} description={d.highlight}>
+  <div class="back-link">
+    <a href="/">← All Reviews</a>
+  </div>
+
+  <article>
+    <header class="review-header">
+      <div class="header-top">
+        <span class="cuisine-tag">{d.cuisine}</span>
+        <div class="rating-badge" style={`color: ${ratingColor}`}>
+          <span class="rating-num">{d.rating}</span>
+          <span class="rating-denom">/10</span>
+        </div>
+      </div>
+
+      <h1 class="restaurant-name">{d.name}</h1>
+
+      <div class="meta-row">
+        <span class="meta-item">📍 {d.suburb}{d.address ? ` — ${d.address}` : ''}</span>
+        <span class="meta-item">💰 {d.price}</span>
+        <span class="meta-item">🗓 Visited {dateFormatted}</span>
+        {d.would_return && <span class="meta-item return">↩ Would return</span>}
+      </div>
+
+      <p class="highlight-quote">"{d.highlight}"</p>
+
+      {d.recommended_dishes && d.recommended_dishes.length > 0 && (
+        <div class="dishes">
+          <span class="dishes-label">Must order:</span>
+          <div class="dishes-list">
+            {d.recommended_dishes.map(dish => <span class="dish">{dish}</span>)}
+          </div>
+        </div>
+      )}
+
+      <div class="tags-row">
+        {d.tags.map(tag => <span class="tag">{tag}</span>)}
+      </div>
+    </header>
+
+    <div class="review-body prose">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<style>
+  .back-link {
+    margin-bottom: 2rem;
+  }
+
+  .back-link a {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    transition: color 0.15s;
+  }
+
+  .back-link a:hover { color: var(--rust); }
+
+  article {
+    max-width: 720px;
+  }
+
+  .review-header {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+  }
+
+  .cuisine-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border: 1px solid var(--rust);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+  }
+
+  .rating-badge {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+
+  .rating-num {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .rating-denom {
+    font-size: 1rem;
+    color: var(--ink-soft);
+  }
+
+  .restaurant-name {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .meta-item {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+
+  .meta-item.return { color: var(--rust); font-weight: 500; }
+
+  .highlight-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink);
+    border-left: 3px solid var(--rust);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    line-height: 1.5;
+  }
+
+  .dishes {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .dishes-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .dishes-list { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .dish {
+    background: var(--rust);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.25rem 0.65rem;
+    border-radius: 2px;
+  }
+
+  .tags-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  .tag {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    color: var(--ink-soft);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* Prose / review body */
+  .prose {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--ink);
+  }
+
+  .prose :global(p) { margin-bottom: 1.25rem; }
+  .prose :global(strong) { font-weight: 600; color: var(--ink); }
+  .prose :global(em) { font-style: italic; }
+  .prose :global(h2),
+  .prose :global(h3) {
+    font-family: var(--font-display);
+    margin: 2rem 0 0.75rem;
+  }
+</style>

@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="About — Well & Truly Eaten">
+  <div class="about">
+    <p class="eyebrow">About this site</p>
+    <h1>No <em>agenda.</em><br/>Just food.</h1>
+
+    <div class="body">
+      <p>
+        This is a personal record of restaurants I've actually eaten at, paid for myself,
+        and formed genuine opinions about. No PR dinners, no sponsored posts, no affiliate links.
+      </p>
+      <p>
+        Ratings are out of 10 and are entirely subjective — they reflect value for money,
+        execution, and how much I'd want to go back, not some universal quality score.
+      </p>
+      <p>
+        Focused on Melbourne, occasionally elsewhere.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .about { max-width: 600px; }
+
+  .eyebrow {
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  h1 em { font-style: italic; color: var(--rust); }
+
+  .body p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 1.25rem;
+  }
+</style>
