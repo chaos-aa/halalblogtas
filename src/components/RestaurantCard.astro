@@ -12,152 +12,153 @@ interface Props {
 }
 
 const { name, suburb, cuisine, rating, price, highlight, tags, slug, would_return } = Astro.props;
-
-const ratingColor = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
+const ratingClass = rating >= 8 ? 'high' : rating >= 6 ? 'mid' : 'low';
 ---
 
 <a href={`/restaurants/${slug}`} class="card">
-  <div class="card-header">
-    <div class="card-meta">
-      <span class="cuisine">{cuisine}</span>
-      <span class="price">{price}</span>
+  <div class="card-top">
+    <div class="card-labels">
+      <span class="cuisine-tag">{cuisine}</span>
+      <span class="price-tag">{price}</span>
     </div>
-    <div class={`rating rating--${ratingColor}`}>
-      <span class="rating-num">{rating}</span>
-      <span class="rating-denom">/10</span>
+    <div class={`rating rating--${ratingClass}`}>
+      <span class="rating-num">{rating}</span><span class="rating-denom">/10</span>
     </div>
   </div>
 
   <h2 class="card-name">{name}</h2>
-  <p class="card-suburb">{suburb}</p>
+  <p class="card-suburb">📍 {suburb}</p>
   <p class="card-highlight">{highlight}</p>
 
   <div class="card-footer">
     <div class="tags">
-      {tags.slice(0, 3).map(tag => <span class="tag">{tag}</span>)}
+      {tags.slice(0, 3).map(tag => (
+        <span class="tag">{tag}</span>
+      ))}
     </div>
-    {would_return && <span class="return-badge">↩ Would return</span>}
+    {would_return && <span class="return-badge">↩ Return</span>}
   </div>
 </a>
 
 <style>
   .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1.75rem;
+    background: var(--white);
+    border-radius: 15px;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
-    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    gap: 0.4rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
   }
 
   .card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(26,23,20,0.1);
-    border-color: var(--rust);
+    box-shadow: 6px 8px 0px rgba(46,111,64,0.28);
   }
 
-  .card-header {
+  .card-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }
 
-  .card-meta {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
+  .card-labels { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
 
-  .cuisine {
-    font-size: 0.75rem;
+  .cuisine-tag {
+    background-color: var(--green);
+    color: #d4edda;
+    font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--rust);
+    border-radius: 4px;
+    padding: 0.2rem 0.55rem;
   }
 
-  .price {
-    font-size: 0.75rem;
-    color: var(--ink-soft);
-    font-weight: 500;
+  .price-tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink-mid);
+    letter-spacing: 0.04em;
   }
 
   .rating {
     display: flex;
     align-items: baseline;
     gap: 1px;
+    line-height: 1;
   }
 
   .rating-num {
     font-family: var(--font-display);
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 2.2rem;
     line-height: 1;
   }
 
   .rating-denom {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--ink-soft);
   }
 
-  .rating--high .rating-num { color: var(--rust); }
-  .rating--mid .rating-num  { color: var(--gold); }
-  .rating--low .rating-num  { color: var(--ink-soft); }
+  .rating--high .rating-num { color: var(--green); }
+  .rating--mid  .rating-num { color: #b5860d; }
+  .rating--low  .rating-num { color: #999; }
 
   .card-name {
     font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-top: 0.25rem;
+    font-size: 1.65rem;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-top: 0.2rem;
   }
 
   .card-suburb {
-    font-size: 0.8rem;
-    color: var(--ink-soft);
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
+    color: var(--ink-soft);
   }
 
   .card-highlight {
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-    margin-top: 0.25rem;
+    font-family: var(--font-serif);
     font-style: italic;
+    font-size: 0.88rem;
+    color: var(--ink-mid);
     line-height: 1.5;
+    margin-top: 0.15rem;
   }
 
   .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 0.75rem;
+    margin-top: 0.6rem;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
-  .tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
 
   .tag {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 2px;
+    display: inline-block;
+    background-color: #222;
+    color: #fff;
     font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    color: var(--ink-soft);
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    border-radius: 1rem;
+    padding: 0.2rem 0.55rem;
+    letter-spacing: 0.04em;
   }
 
   .return-badge {
     font-size: 0.72rem;
-    color: var(--rust);
-    font-weight: 500;
-    letter-spacing: 0.04em;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--green);
   }
 </style>

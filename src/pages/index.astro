@@ -1,286 +1,59 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import RestaurantCard from '../components/RestaurantCard.astro';
-
-const restaurants = await getCollection('restaurants');
-const sorted = restaurants.sort((a, b) => b.data.rating - a.data.rating);
-
-// Build unique filter lists
-const cuisines = [...new Set(sorted.map(r => r.data.cuisine))].sort();
-const suburbs  = [...new Set(sorted.map(r => r.data.suburb))].sort();
-const prices   = ['$', '$$', '$$$', '$$$$'];
 ---
 
-<Base title="Well & Truly Eaten — Melbourne Restaurant Reviews">
-  <header class="page-header">
-    <p class="eyebrow">A personal guide</p>
-    <h1>Melbourne<br/><em>Restaurants</em></h1>
-    <p class="subhead">
-      {sorted.length} honest reviews. No ads, no comps, no PR dinners.
-    </p>
-  </header>
+<Base title="About — Fork & Found">
+  <div class="about">
+    <p class="eyebrow">About this site</p>
+    <h1>NO AGENDA.<br/><span>JUST FOOD.</span></h1>
 
-  <!-- Filters -->
-  <div class="filters" id="filters">
-    <div class="filter-group">
-      <span class="filter-label">Cuisine</span>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="cuisine" data-value="all">All</button>
-        {cuisines.map(c => (
-          <button class="pill" data-filter="cuisine" data-value={c}>{c}</button>
-        ))}
-      </div>
-    </div>
-
-    <div class="filter-group">
-      <span class="filter-label">Location</span>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="suburb" data-value="all">All</button>
-        {suburbs.map(s => (
-          <button class="pill" data-filter="suburb" data-value={s}>{s}</button>
-        ))}
-      </div>
-    </div>
-
-    <div class="filter-group">
-      <span class="filter-label">Price</span>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="price" data-value="all">All</button>
-        {prices.map(p => (
-          <button class="pill" data-filter="price" data-value={p}>{p}</button>
-        ))}
-      </div>
+    <div class="about-card">
+      <p>A personal record of restaurants I've actually eaten at, paid for myself, and formed genuine opinions about. No PR dinners, no sponsored posts, no affiliate links.</p>
+      <p>Ratings are out of 10 and entirely subjective — they reflect value for money, execution, and how much I'd want to go back, not some universal quality score.</p>
+      <p>Focused on Melbourne, occasionally elsewhere.</p>
     </div>
   </div>
-
-  <!-- Sort bar -->
-  <div class="sort-bar">
-    <span class="results-count" id="results-count">{sorted.length} restaurants</span>
-    <select id="sort-select" class="sort-select">
-      <option value="rating">Sort: Rating</option>
-      <option value="recent">Sort: Most Recent</option>
-      <option value="name">Sort: Name</option>
-    </select>
-  </div>
-
-  <!-- Cards grid -->
-  <div class="grid" id="grid">
-    {sorted.map(r => (
-      <div
-        class="grid-item"
-        data-cuisine={r.data.cuisine}
-        data-suburb={r.data.suburb}
-        data-price={r.data.price}
-        data-rating={r.data.rating}
-        data-visited={r.data.visited.toISOString()}
-        data-name={r.data.name}
-      >
-        <RestaurantCard
-          name={r.data.name}
-          suburb={r.data.suburb}
-          cuisine={r.data.cuisine}
-          rating={r.data.rating}
-          price={r.data.price}
-          highlight={r.data.highlight}
-          tags={r.data.tags}
-          slug={r.slug}
-          would_return={r.data.would_return}
-        />
-      </div>
-    ))}
-  </div>
-
-  <p class="empty-state" id="empty-state" style="display:none">
-    No restaurants match those filters yet.
-  </p>
 </Base>
 
 <style>
-  .page-header {
-    margin-bottom: 3rem;
-  }
+  .about { max-width: 600px; }
 
   .eyebrow {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 0.75rem;
+    color: var(--green);
+    margin-bottom: 0.5rem;
   }
 
-  .page-header h1 {
+  h1 {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 5.5rem);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    margin-bottom: 1rem;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    text-shadow: 3px 3px 0 rgba(46,111,64,0.12);
   }
 
-  .page-header h1 em {
-    font-style: italic;
-    color: var(--rust);
-  }
+  h1 span { color: var(--green); }
 
-  .subhead {
-    color: var(--ink-soft);
-    font-size: 1rem;
-    max-width: 40ch;
-  }
-
-  /* Filters */
-  .filters {
+  .about-card {
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    padding: 1.75rem 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.5rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    margin-bottom: 1.5rem;
   }
 
-  .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  .filter-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    min-width: 5rem;
-  }
-
-  .filter-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-
-  .pill {
-    background: transparent;
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 0.3rem 0.75rem;
-    font-size: 0.78rem;
-    font-family: var(--font-body);
-    font-weight: 500;
-    cursor: pointer;
-    color: var(--ink-soft);
-    transition: all 0.15s;
-  }
-
-  .pill:hover { border-color: var(--rust); color: var(--rust); }
-
-  .pill.active {
-    background: var(--rust);
-    border-color: var(--rust);
-    color: #fff;
-  }
-
-  /* Sort bar */
-  .sort-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-  }
-
-  .results-count {
-    font-size: 0.82rem;
-    color: var(--ink-soft);
-  }
-
-  .sort-select {
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 2px;
-    padding: 0.4rem 0.75rem;
-    color: var(--ink);
-    cursor: pointer;
-  }
-
-  /* Grid */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.25rem;
-  }
-
-  .grid-item { transition: opacity 0.2s; }
-  .grid-item.hidden { display: none; }
-
-  .empty-state {
-    text-align: center;
-    padding: 4rem 0;
-    color: var(--ink-soft);
-    font-style: italic;
-  }
-
-  @media (max-width: 600px) {
-    .filter-group { flex-direction: column; align-items: flex-start; }
+  .about-card p {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--ink-mid);
   }
 </style>
-
-<script>
-  const state = { cuisine: 'all', suburb: 'all', price: 'all' };
-
-  function applyFilters() {
-    const items = document.querySelectorAll('.grid-item');
-    let visible = 0;
-
-    items.forEach(item => {
-      const el = item as HTMLElement;
-      const match =
-        (state.cuisine === 'all' || el.dataset.cuisine === state.cuisine) &&
-        (state.suburb  === 'all' || el.dataset.suburb  === state.suburb)  &&
-        (state.price   === 'all' || el.dataset.price   === state.price);
-
-      el.classList.toggle('hidden', !match);
-      if (match) visible++;
-    });
-
-    const countEl = document.getElementById('results-count');
-    if (countEl) countEl.textContent = `${visible} restaurant${visible !== 1 ? 's' : ''}`;
-
-    const emptyEl = document.getElementById('empty-state');
-    if (emptyEl) emptyEl.style.display = visible === 0 ? 'block' : 'none';
-  }
-
-  // Pill clicks
-  document.querySelectorAll('.pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = (btn as HTMLElement).dataset.filter as keyof typeof state;
-      const value  = (btn as HTMLElement).dataset.value!;
-
-      state[filter] = value;
-
-      // Update active pill in this group
-      document.querySelectorAll(`[data-filter="${filter}"]`).forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-
-      applyFilters();
-    });
-  });
-
-  // Sort
-  document.getElementById('sort-select')?.addEventListener('change', (e) => {
-    const val = (e.target as HTMLSelectElement).value;
-    const grid = document.getElementById('grid')!;
-    const items = [...grid.querySelectorAll('.grid-item')] as HTMLElement[];
-
-    items.sort((a, b) => {
-      if (val === 'rating')  return Number(b.dataset.rating)  - Number(a.dataset.rating);
-      if (val === 'recent')  return new Date(b.dataset.visited!).getTime() - new Date(a.dataset.visited!).getTime();
-      if (val === 'name')    return a.dataset.name!.localeCompare(b.dataset.name!);
-      return 0;
-    });
-
-    items.forEach(item => grid.appendChild(item));
-  });
-</script>
