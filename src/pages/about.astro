@@ -2,23 +2,15 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="About — Well & Truly Eaten">
+<Base title="About — Fork & Found">
   <div class="about">
     <p class="eyebrow">About this site</p>
-    <h1>No <em>agenda.</em><br/>Just food.</h1>
+    <h1>NO AGENDA.<br/><span>JUST FOOD.</span></h1>
 
-    <div class="body">
-      <p>
-        This is a personal record of restaurants I've actually eaten at, paid for myself,
-        and formed genuine opinions about. No PR dinners, no sponsored posts, no affiliate links.
-      </p>
-      <p>
-        Ratings are out of 10 and are entirely subjective — they reflect value for money,
-        execution, and how much I'd want to go back, not some universal quality score.
-      </p>
-      <p>
-        Focused on Melbourne, occasionally elsewhere.
-      </p>
+    <div class="about-card">
+      <p>A personal record of restaurants I've actually eaten at, paid for myself, and formed genuine opinions about. No PR dinners, no sponsored posts, no affiliate links.</p>
+      <p>Ratings are out of 10 and entirely subjective — they reflect value for money, execution, and how much I'd want to go back, not some universal quality score.</p>
+      <p>Focused on Melbourne, occasionally elsewhere.</p>
     </div>
   </div>
 </Base>
@@ -27,29 +19,41 @@ import Base from '../layouts/Base.astro';
   .about { max-width: 600px; }
 
   .eyebrow {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 0.75rem;
+    color: var(--green);
+    margin-bottom: 0.5rem;
   }
 
   h1 {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: 0.04em;
+    color: var(--ink);
     margin-bottom: 2rem;
+    text-shadow: 3px 3px 0 rgba(46,111,64,0.12);
   }
 
-  h1 em { font-style: italic; color: var(--rust); }
+  h1 span { color: var(--green); }
 
-  .body p {
+  .about-card {
+    background: var(--white);
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    box-shadow: var(--card-shadow);
+    padding: 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .about-card p {
+    font-family: var(--font-serif);
     font-size: 1.05rem;
     line-height: 1.8;
-    color: var(--ink-soft);
-    margin-bottom: 1.25rem;
+    color: var(--ink-mid);
   }
 </style>
