@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import RestaurantCard from '../components/RestaurantCard.astro';
 
 const restaurants = await getCollection('restaurants');
 const sorted = restaurants.sort((a, b) => b.data.rating - a.data.rating);
@@ -51,31 +50,49 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     </select>
   </div>
 
- <div id="stories">
-  {sorted.map((r, i) => (
-    <div
-      class={`entries${i === 0 ? ' firstStory' : ''}`}
-      data-cuisine={r.data.cuisine}
-      data-suburb={r.data.suburb}
-      data-price={r.data.price}
-      data-rating={r.data.rating}
-      data-visited={r.data.visited.toISOString()}
-      data-name={r.data.name}
-    >
-      <RestaurantCard
-        name={r.data.name}
-        suburb={r.data.suburb}
-        cuisine={r.data.cuisine}
-        rating={r.data.rating}
-        price={r.data.price}
-        highlight={r.data.highlight}
-        tags={r.data.tags}
-        slug={r.slug}
-        would_return={r.data.would_return}
-      />
-    </div>
-  ))}
-</div>
+  <div id="stories">
+    {sorted.map((r, i) => {
+      const d = r.data;
+      const ratingClass = d.rating >= 8 ? 'high' : d.rating >= 6 ? 'mid' : 'low';
+      return (
+        <article
+          class={`entries${i === 0 ? ' firstStory' : ''}`}
+          data-cuisine={d.cuisine}
+          data-suburb={d.suburb}
+          data-price={d.price}
+          data-rating={d.rating}
+          data-visited={d.visited.toISOString()}
+          data-name={d.name}
+        >
+          <a href={`/restaurants/${r.slug}`} class="card-link">
+
+            <div class="card-top">
+              <div class="card-labels">
+                <span class="cuisine-tag">{d.cuisine}</span>
+                <span class="price-tag">{d.price}</span>
+              </div>
+              <div class={`rating rating--${ratingClass}`}>
+                <span class="rating-num">{d.rating}</span>
+                <span class="rating-denom">/10</span>
+              </div>
+            </div>
+
+            <h2>{d.name}</h2>
+            <p class="suburb">📍 {d.suburb}</p>
+            <p class="subheading">{d.highlight}</p>
+
+            <div class="keywords">
+              {d.tags.slice(0, 4).map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+              {d.would_return && <span class="tag return-tag">↩ Return</span>}
+            </div>
+
+          </a>
+        </article>
+      );
+    })}
+  </div>
 
   <p class="empty-state" id="empty-state" style="display:none">No restaurants match those filters yet.</p>
 
@@ -181,7 +198,7 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     cursor: pointer;
   }
 
-  /* Grid — matches your sports site #stories */
+  /* Grid */
   #stories {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -189,7 +206,7 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     gap: 20px;
   }
 
-  /* Card wrapper — matches your .entries */
+  /* Card — matches your sports site .entries */
   .entries {
     background-color: var(--white);
     display: flex;
@@ -208,14 +225,131 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
     box-shadow: 7px 9px 0px rgba(0,0,0,0.18);
   }
 
-  /* Featured first card — matches your #firstStory */
+  /* Featured first card */
   .firstStory {
     grid-column: 1 / -1;
-    flex-direction: row;
     border: 3px solid var(--black);
     padding: 20px;
-    gap: 1.5rem;
+  }
+
+  /* The link fills the whole card, no underline */
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
     align-items: flex-start;
+  }
+
+  .card-labels { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+
+  .cuisine-tag {
+    background-color: var(--black);
+    color: #ddd;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 4px;
+    padding: 0.2rem 0.55rem;
+  }
+
+  .price-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--grey-mid);
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15rem 0.45rem;
+  }
+
+  .rating {
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+    line-height: 1;
+  }
+
+  .rating-num {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+
+  .rating-denom { font-size: 0.72rem; color: var(--grey-mid); }
+  .rating--high .rating-num { color: var(--black); }
+  .rating--mid  .rating-num { color: var(--grey-dark); }
+  .rating--low  .rating-num { color: var(--grey-mid); }
+
+  .entries h2 {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 2px 0 3px 0;
+    color: var(--black);
+  }
+
+  .firstStory h2 {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    text-align: left;
+    letter-spacing: 0.04em;
+  }
+
+  .suburb {
+    font-size: 0.73rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--grey-mid);
+    text-align: center;
+    padding: 0 0 5px;
+  }
+
+  .subheading {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--grey-dark);
+    text-align: center;
+    line-height: 1.5;
+    padding: 5px 0;
+  }
+
+  .firstStory .suburb,
+  .firstStory .subheading { text-align: left; }
+
+  .keywords {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  .tag {
+    display: inline-block;
+    background-color: var(--black);
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: #ddd;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .return-tag {
+    background-color: var(--charcoal);
+    color: #aaa;
   }
 
   .entries.hidden { display: none; }
@@ -230,8 +364,8 @@ const prices   = ['$', '$$', '$$$', '$$$$'];
 
   @media (max-width: 700px) {
     #stories { grid-template-columns: 1fr; }
-    .firstStory { flex-direction: column; }
     .filter-group { flex-direction: column; align-items: flex-start; }
+    .entries h2 { font-size: 1.3rem; }
   }
 </style>
 
