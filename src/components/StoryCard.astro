@@ -1,0 +1,21 @@
+---
+interface Props {
+  title: string;
+  subheading: string;
+  author: string;
+  published: string;
+  tags: string;
+  content: string;
+}
+const { title, subheading, author, published, tags, content } = Astro.props;
+---
+
+<article class="storyCard">
+  <h3 class="storyTitle">{title}</h3>
+  <div class="storySubheading">{subheading}</div>
+  <div class="storyMeta">Author: {author}</div>
+  <div class="storyMeta">Published: {published}</div>
+  <div class="storyMeta">Tags: {tags}</div>
+  <button class="storyButton">Read More</button>
+  <div class="storyContent">{content}</div>
+</article>

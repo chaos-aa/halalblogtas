@@ -1,145 +1,65 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-
-const restaurants = await getCollection('restaurants');
-const sorted = restaurants.sort((a, b) => b.data.rating - a.data.rating);
-
-const cuisines = [...new Set(sorted.map(r => r.data.cuisine))].sort();
-const suburbs  = [...new Set(sorted.map(r => r.data.suburb))].sort();
-const prices   = ['$', '$$', '$$$', '$$$$'];
+import StoryCard from '../components/StoryCard.astro';
 ---
 
-<Base title="Halal Takeout Tasmania — Halal Restaurants in Tasmania">
+<Base title="Halal TakeOut Tasmania - Home" currentPage="home">
 
-  <div class="page-header">
-    <p class="eyebrow">Tasmania &bull; {sorted.length} Listings</p>
-    <h1 class="site-motto">YOUR GUIDE TO HALAL FOOD IN TASMANIA</h1>
-  </div>
+  <p class="siteMotto">
+    Please note: All restaurants verified through word of mouth, reviews, and halal certificates
+    where possible. Please use your own judgement and ask the restaurants beforehand to confirm
+    beyond a shadow of doubt. If any restaurant wants to refute the claims of selling halal food,
+    or if anyone wants to nominate a halal option, please reach out at
+    <a href="mailto:email@example.com">email@example.com</a>
+  </p>
 
-  <div id="filters">
-    <div class="filter-group">
-      <span class="filter-label">Cuisine</span>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="cuisine" data-value="all">All</button>
-        {cuisines.map(c => <button class="pill" data-filter="cuisine" data-value={c}>{c}</button>)}
-      </div>
-    </div>
-    <div class="filter-group">
-      <span class="filter-label">Location</span>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="suburb" data-value="all">All</button>
-        {suburbs.map(s => <button class="pill" data-filter="suburb" data-value={s}>{s}</button>)}
-      </div>
-    </div>
-    <div class="filter-group">
-      <span class="filter-label">Price</span>
-      <div class="filter-pills">
-        <button class="pill active" data-filter="price" data-value="all">All</button>
-        {prices.map(p => <button class="pill" data-filter="price" data-value={p}>{p}</button>)}
-      </div>
-    </div>
-  </div>
+  <section id="pastStories">
 
-  <div class="sort-bar">
-    <span id="results-count" class="results-count">{sorted.length} restaurants</span>
-    <select id="sort-select" class="sort-select">
-      <option value="rating">Sort: Rating</option>
-      <option value="recent">Sort: Most Recent</option>
-      <option value="name">Sort: A–Z</option>
-    </select>
-  </div>
+    <StoryCard
+      title="Djokovic's Fifth Set Escape"
+      subheading="A near-collapse turns into another trademark comeback under pressure."
+      author="Liam Carter"
+      published="8:15 PM, 2 April 2026"
+      tags="Tennis, Grand Slam, Comeback"
+      content="Novak Djokovic looked in trouble early as his opponent controlled the first two sets with powerful serving and sharp movement. Errors crept into Djokovic's game, and the crowd sensed an upset. But as the match wore on, his experience began to show. He slowed the tempo, extended rallies, and forced his opponent into more physical exchanges. By the fourth set, momentum had clearly shifted. In the fifth, Djokovic broke serve at the perfect moment and protected the lead with clinical precision. It was not his cleanest performance, but it showed why he remains one of the sport's most difficult players to finish off when the pressure peaks."
+    />
 
-  <div id="stories">
-    {sorted.map((r, i) => {
-      const d = r.data;
-      const ratingClass = d.rating >= 8 ? 'high' : d.rating >= 6 ? 'mid' : 'low';
-      return (
-        <article
-          class={`entries${i === 0 ? ' firstStory' : ''}`}
-          data-cuisine={d.cuisine}
-          data-suburb={d.suburb}
-          data-price={d.price}
-          data-rating={d.rating}
-          data-visited={d.visited.toISOString()}
-          data-name={d.name}
-        >
-          <a href={`/restaurants/${r.slug}`} class="card-link">
+    <StoryCard
+      title="Boston's Late Burst Seals the Series"
+      subheading="A dominant final quarter pushes Boston past a stubborn rival."
+      author="Maya Singh"
+      published="6:40 PM, 28 March 2026"
+      tags="Basketball, NBA, Playoffs"
+      content="For three quarters, the game felt balanced and tense, with both teams trading runs and defensive stops. Boston struggled from outside early and had to rely on second-chance points to stay within reach. Then everything changed in the final period. Their ball movement sharpened, the pace increased, and the defence forced repeated turnovers. A quick 12-2 run opened a gap that the opposition never recovered from. The home crowd responded to every possession as Boston closed out the contest with control and confidence. The result not only sealed the series but also reinforced their status as one of the strongest closing teams in the competition."
+    />
 
-            <div class="card-top">
-              <div class="card-labels">
-                <span class="cuisine-tag">{d.cuisine}</span>
-                <span class="price-tag">{d.price}</span>
-              </div>
-              <div class={`rating rating--${ratingClass}`}>
-                <span class="rating-num">{d.rating}</span>
-                <span class="rating-denom">/10</span>
-              </div>
-            </div>
+    <StoryCard
+      title="The Derby That Changed the Season"
+      subheading="A fierce local clash delivers more than three points."
+      author="Ethan Brooks"
+      published="3:20 PM, 22 March 2026"
+      tags="Football, Derby, League"
+      content="Derbies often carry extra emotion, but this one also carried major consequences for the league table. Both sides entered the match under pressure after inconsistent recent form, and the opening stages reflected that nervous energy. Challenges flew in, possession changed hands quickly, and clear chances were rare. The breakthrough finally came midway through the second half when a low cross was turned in from close range. From there, the match opened up. The defending side threw numbers forward, but the winning team remained disciplined and dangerous on the counterattack. By full time, the celebrations suggested this was more than a derby win. It felt like the turning point that could define their campaign."
+    />
 
-            <h2>{d.name}</h2>
-            <p class="suburb">📍 {d.suburb}</p>
-            <p class="subheading">{d.highlight}</p>
+    <StoryCard
+      title="A New Star Emerges in Melbourne"
+      subheading="A fearless teenager stuns the field with pace and maturity."
+      author="Chloe Bennett"
+      published="11:05 AM, 17 March 2026"
+      tags="Athletics, Sprinting, Rising Star"
+      content="The build-up focused on experienced names, but by the end of the day the conversation belonged to a teenager few expected to dominate so confidently. From the heats onward, the young sprinter looked composed, efficient, and completely unbothered by the occasion. In the final, the start was clean and powerful, and the lead was established within the first thirty metres. What impressed observers most was not just the speed, but the control. Even under pressure, the technique held together and the finish was strong. Coaches and commentators were quick to urge patience, but the performance made one thing obvious: a serious new talent has arrived on the national stage."
+    />
 
-            <div class="keywords">
-              {d.tags.slice(0, 4).map(tag => (
-                <span class="tag">{tag}</span>
-              ))}
-              {d.would_return && <span class="tag return-tag">↩ Return</span>}
-            </div>
+    <StoryCard
+      title="The Captain's Knock in Tough Conditions"
+      subheading="Patience and timing guide the side through a difficult chase."
+      author="Noah Phillips"
+      published="7:55 PM, 10 March 2026"
+      tags="Cricket, Captaincy, Chase"
+      content="Chasing under lights on a wearing surface is rarely straightforward, and the early wickets only increased the difficulty. The captain arrived with the innings unstable and immediately chose control over aggression. Singles were rotated, loose balls were punished, and partnerships were built without unnecessary risk. While others struggled to time the ball cleanly, the captain adapted to the pitch and read the bowlers well. The required rate never became unmanageable because the innings stayed calm and organised. By the closing overs, the result felt inevitable. It was not a spectacular hundred or a wild finish, but it was an innings full of judgment, discipline, and leadership when the team needed it most."
+    />
 
-          </a>
-        </article>
-      );
-    })}
-  </div>
-
-  <p class="empty-state" id="empty-state" style="display:none">No restaurants match those filters yet.</p>
+  </section>
 
 </Base>
-
-
-<script>
-  const state: Record<string, string> = { cuisine: 'all', suburb: 'all', price: 'all' };
-
-  function applyFilters() {
-    const items = document.querySelectorAll<HTMLElement>('.entries');
-    let visible = 0;
-    items.forEach(item => {
-      const match =
-        (state.cuisine === 'all' || item.dataset.cuisine === state.cuisine) &&
-        (state.suburb  === 'all' || item.dataset.suburb  === state.suburb)  &&
-        (state.price   === 'all' || item.dataset.price   === state.price);
-      item.classList.toggle('hidden', !match);
-      if (match) visible++;
-    });
-    const c = document.getElementById('results-count');
-    if (c) c.textContent = `${visible} restaurant${visible !== 1 ? 's' : ''}`;
-    const e = document.getElementById('empty-state');
-    if (e) e.style.display = visible === 0 ? 'block' : 'none';
-  }
-
-  document.querySelectorAll('.pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const el = btn as HTMLElement;
-      const filter = el.dataset.filter!;
-      state[filter] = el.dataset.value!;
-      document.querySelectorAll(`[data-filter="${filter}"]`).forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      applyFilters();
-    });
-  });
-
-  document.getElementById('sort-select')?.addEventListener('change', e => {
-    const val = (e.target as HTMLSelectElement).value;
-    const grid = document.getElementById('stories')!;
-    const items = [...grid.querySelectorAll<HTMLElement>('.entries')];
-    items.sort((a, b) => {
-      if (val === 'rating') return Number(b.dataset.rating) - Number(a.dataset.rating);
-      if (val === 'recent') return new Date(b.dataset.visited!).getTime() - new Date(a.dataset.visited!).getTime();
-      if (val === 'name')   return a.dataset.name!.localeCompare(b.dataset.name!);
-      return 0;
-    });
-    items.forEach(item => grid.appendChild(item));
-  });
-</script>

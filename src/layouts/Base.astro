@@ -1,61 +1,66 @@
 ---
 interface Props {
   title: string;
-  description?: string;
+  currentPage?: string;
 }
-const { title, description = "A personal list of halal restaurants around Tasmania." } = Astro.props;
+const { title, currentPage = 'home' } = Astro.props;
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="author" content="Taif Al-Amin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/styles/style.css">
   <title>{title}</title>
-  <meta name="description" content={description} />
- <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/styles/global.css" />
 </head>
+
 <body>
   <div id="container">
 
-    <header class="site-header">
-      <div class="site-header-inner">
-        <a href="/" class="site-logo">HALAL TAKEOUT TASMANIA</a>
-        <span class="site-tagline">A personal list of halal restaurants around Tasmania</span>
-      </div>
-      <nav class="site-nav">
-        <ul>
-          <li><a href="/" id="nav-home">All Restaurants</a></li>
-          <li><a href="/about" id="nav-about">About</a></li>
-        </ul>
-      </nav>
+    <header>
+      <img src="" alt="Site Logo">
     </header>
 
-    <div class="disclaimer">
-      <strong>Please note:</strong> All restaurants verified through word of mouth, reviews, and halal certificates where possible. Please use your own judgement and ask the restaurants beforehand to confirm beyond a shadow of doubt. If any restaurant wants to refute the claims of selling halal food, or if anyone wants to nominate a halal option, please reach out at <a href="mailto:email@example.com">email@example.com</a>
-    </div>
+    <nav>
+      <ul id="navBar">
+        <li id={currentPage === 'home' ? 'currentItem' : undefined}>
+          {currentPage === 'home' ? 'Home' : <a href="/">Home</a>}
+        </li>
+        <li id={currentPage === 'about' ? 'currentItem' : undefined}>
+          {currentPage === 'about' ? 'About Us' : <a href="/about">About Us</a>}
+        </li>
+      </ul>
+    </nav>
 
     <main>
       <slot />
     </main>
 
-    <a href="#" id="topBtn" title="Scroll to top">↑</a>
+    <a href="#" id="topBtn">Scroll To Top</a>
 
     <footer>
-      <p>Halal Takeout Tasmania &mdash; Community verified. Not officially certified.</p>
+      © Taif Al-Amin, all respective restaurant information taken from publicly available information,
+      and belongs to the respective restaurants and organisations.
     </footer>
 
   </div>
 
   <script>
-    const path = window.location.pathname;
-    if (path === '/' || path.startsWith('/restaurants')) {
-      document.getElementById('nav-home')?.classList.add('active');
-    } else if (path.startsWith('/about')) {
-      document.getElementById('nav-about')?.classList.add('active');
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+      const storyButtons = document.querySelectorAll(".storyButton");
+      storyButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          const storyContent = button.nextElementSibling;
+          storyContent.classList.toggle("show");
+          if (storyContent.classList.contains("show")) {
+            button.textContent = "Hide Story";
+          } else {
+            button.textContent = "Read More";
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
