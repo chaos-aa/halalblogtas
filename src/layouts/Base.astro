@@ -11,6 +11,9 @@ const { title, currentPage = 'home' } = Astro.props;
   <meta charset="UTF-8">
   <meta name="author" content="Taif Al-Amin">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href={`${import.meta.env.BASE_URL}/styles/style.css`}>
   <title>{title}</title>
 </head>
@@ -19,16 +22,25 @@ const { title, currentPage = 'home' } = Astro.props;
   <div id="container">
 
     <header>
-      <img src="" alt="Site Logo">
+      <a href={`${import.meta.env.BASE_URL}`} class="site-wordmark">
+        Halal Takeout <span>Tasmania</span>
+      </a>
     </header>
 
-    <nav>
+      <nav>
       <ul id="navBar">
-        <li id={currentPage === 'home' ? 'currentItem' : undefined}>
-          {currentPage === 'home' ? 'Home' : <a href={`${import.meta.env.BASE_URL}`}>Home</a>}
+        <li>
+          {currentPage === 'home'
+            ? <span class="nav-active">Home</span>
+            : <a href={`${import.meta.env.BASE_URL}`}>Home</a>}
         </li>
-        <li id={currentPage === 'about' ? 'currentItem' : undefined}>
-          {currentPage === 'about' ? 'About Us' : <a href={`${import.meta.env.BASE_URL}about`}>About Us</a>}
+        <li>
+          {currentPage === 'about'
+            ? <span class="nav-active">About Us</span>
+            : <a href={`${import.meta.env.BASE_URL}about`}>About Us</a>}
+        </li>
+        <li style="margin-left: auto; display: flex; align-items: center; padding-right: 0.5rem;">
+          <button id="darkToggle">🌙 Dark</button>
         </li>
       </ul>
     </nav>
@@ -47,18 +59,34 @@ const { title, currentPage = 'home' } = Astro.props;
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const storyButtons = document.querySelectorAll(".storyButton");
-      storyButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          const storyContent = button.nextElementSibling;
-          storyContent.classList.toggle("show");
-          button.textContent = storyContent.classList.contains("show")
-            ? "Hide Review"
-            : "Read Review";
-        });
+  // ── READ MORE BUTTONS ──
+  document.addEventListener("DOMContentLoaded", function () {
+    const storyButtons = document.querySelectorAll(".storyButton");
+    storyButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const storyContent = button.nextElementSibling;
+        storyContent.classList.toggle("show");
+        button.textContent = storyContent.classList.contains("show")
+          ? "Hide Review"
+          : "Read Review";
       });
     });
-  </script>
+  });
+
+  // ── DARK MODE ──
+  const toggle = document.getElementById("darkToggle");
+
+  // Apply saved preference on load
+  if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
+    if (toggle) toggle.textContent = "☀️ Light";
+  }
+
+  toggle?.addEventListener("click", () => {
+    const isDark = document.body.classList.toggle("dark");
+    localStorage.setItem("darkMode", String(isDark));
+    toggle.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+  });
+</script>
 </body>
 </html>
