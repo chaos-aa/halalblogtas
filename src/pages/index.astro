@@ -1,18 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import RestaurantCard from '../components/RestaurantCard.astro';
 
 const restaurants = await getCollection('restaurants');
-
-// Sort by rating descending
 const sorted = restaurants.sort((a, b) => b.data.rating - a.data.rating);
 
-// Render markdown body for each
 const rendered = await Promise.all(
   sorted.map(async (r) => {
-    const { compiledContent } = await r.render();
-    return { data: r.data, html: compiledContent() };
+    const { Content } = await render(r);
+    return { data: r.data, Content };
   })
 );
 ---
@@ -28,15 +25,41 @@ const rendered = await Promise.all(
   </p>
 
   <section id="pastStories">
-    {rendered.map(({ data, html }) => (
-      <RestaurantCard
-        name={data.name}
-        suburb={data.suburb}
-        cuisine={data.cuisine}
-        rating={data.rating}
-        halal_status={data.halal_status}
-        body={html}
-      />
+    {rendered.map(({ data, Content }) => (
+      <article class="storyCard">
+        <h3 class="storyTitle">{data.name}</h3>
+        <div class="storySubheading">{data.suburb} &mdash; {data.cuisine}</div>
+
+        <div class="storyMeta">
+          <span class={`halalBadge ${
+            data.halal_status === 'Certified'             ? 'certified'  :
+            data.halal_status === 'Verified by community' ? 'community'  :
+            data.halal_status === 'Owner confirmed'       ? 'owner'      :
+            'unverified'
+          }`}>{data.halal_status}</span>
+        </div>
+
+        <div class="storyMeta">
+          <span class="ratingDisplay">
+            {data.rating}/10 &mdash; {
+              data.rating >= 8 ? '★ Highly recommended' :
+              data.rating >= 6 ? '★ Worth a visit' :
+              '★ Mixed feelings'
+            }
+          </span>
+        </div>
+
+        <div class="keywords">
+          <span>{data.cuisine}</span>
+          <span>{data.suburb}</span>
+        </div>
+
+        <button class="storyButton">Read Review</button>
+
+        <div class="storyContent">
+          <Content />
+        </div>
+      </article>
     ))}
   </section>
 
