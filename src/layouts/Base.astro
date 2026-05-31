@@ -37,7 +37,7 @@ const { title, currentPage = 'home' } = Astro.props;
         <li>
           {currentPage === 'about'
             ? <span class="nav-active">About Us</span>
-            : <a href={`${import.meta.env.BASE_URL}about`}>About Us</a>}
+            : <a href={`${import.meta.env.BASE_URL}/about`}>About Us</a>}
         </li>
         <li style="margin-left: auto; display: flex; align-items: center; padding-right: 0.5rem;">
           <button id="darkToggle">🌙 Dark</button>
