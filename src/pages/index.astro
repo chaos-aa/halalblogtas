@@ -1,6 +1,20 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import StoryCard from '../components/StoryCard.astro';
+import RestaurantCard from '../components/RestaurantCard.astro';
+
+const restaurants = await getCollection('restaurants');
+
+// Sort by rating descending
+const sorted = restaurants.sort((a, b) => b.data.rating - a.data.rating);
+
+// Render markdown body for each
+const rendered = await Promise.all(
+  sorted.map(async (r) => {
+    const { compiledContent } = await r.render();
+    return { data: r.data, html: compiledContent() };
+  })
+);
 ---
 
 <Base title="Halal TakeOut Tasmania - Home" currentPage="home">
@@ -14,52 +28,16 @@ import StoryCard from '../components/StoryCard.astro';
   </p>
 
   <section id="pastStories">
-
-    <StoryCard
-      title="Djokovic's Fifth Set Escape"
-      subheading="A near-collapse turns into another trademark comeback under pressure."
-      author="Liam Carter"
-      published="8:15 PM, 2 April 2026"
-      tags="Tennis, Grand Slam, Comeback"
-      content="Novak Djokovic looked in trouble early as his opponent controlled the first two sets with powerful serving and sharp movement. Errors crept into Djokovic's game, and the crowd sensed an upset. But as the match wore on, his experience began to show. He slowed the tempo, extended rallies, and forced his opponent into more physical exchanges. By the fourth set, momentum had clearly shifted. In the fifth, Djokovic broke serve at the perfect moment and protected the lead with clinical precision. It was not his cleanest performance, but it showed why he remains one of the sport's most difficult players to finish off when the pressure peaks."
-    />
-
-    <StoryCard
-      title="Boston's Late Burst Seals the Series"
-      subheading="A dominant final quarter pushes Boston past a stubborn rival."
-      author="Maya Singh"
-      published="6:40 PM, 28 March 2026"
-      tags="Basketball, NBA, Playoffs"
-      content="For three quarters, the game felt balanced and tense, with both teams trading runs and defensive stops. Boston struggled from outside early and had to rely on second-chance points to stay within reach. Then everything changed in the final period. Their ball movement sharpened, the pace increased, and the defence forced repeated turnovers. A quick 12-2 run opened a gap that the opposition never recovered from. The home crowd responded to every possession as Boston closed out the contest with control and confidence. The result not only sealed the series but also reinforced their status as one of the strongest closing teams in the competition."
-    />
-
-    <StoryCard
-      title="The Derby That Changed the Season"
-      subheading="A fierce local clash delivers more than three points."
-      author="Ethan Brooks"
-      published="3:20 PM, 22 March 2026"
-      tags="Football, Derby, League"
-      content="Derbies often carry extra emotion, but this one also carried major consequences for the league table. Both sides entered the match under pressure after inconsistent recent form, and the opening stages reflected that nervous energy. Challenges flew in, possession changed hands quickly, and clear chances were rare. The breakthrough finally came midway through the second half when a low cross was turned in from close range. From there, the match opened up. The defending side threw numbers forward, but the winning team remained disciplined and dangerous on the counterattack. By full time, the celebrations suggested this was more than a derby win. It felt like the turning point that could define their campaign."
-    />
-
-    <StoryCard
-      title="A New Star Emerges in Melbourne"
-      subheading="A fearless teenager stuns the field with pace and maturity."
-      author="Chloe Bennett"
-      published="11:05 AM, 17 March 2026"
-      tags="Athletics, Sprinting, Rising Star"
-      content="The build-up focused on experienced names, but by the end of the day the conversation belonged to a teenager few expected to dominate so confidently. From the heats onward, the young sprinter looked composed, efficient, and completely unbothered by the occasion. In the final, the start was clean and powerful, and the lead was established within the first thirty metres. What impressed observers most was not just the speed, but the control. Even under pressure, the technique held together and the finish was strong. Coaches and commentators were quick to urge patience, but the performance made one thing obvious: a serious new talent has arrived on the national stage."
-    />
-
-    <StoryCard
-      title="The Captain's Knock in Tough Conditions"
-      subheading="Patience and timing guide the side through a difficult chase."
-      author="Noah Phillips"
-      published="7:55 PM, 10 March 2026"
-      tags="Cricket, Captaincy, Chase"
-      content="Chasing under lights on a wearing surface is rarely straightforward, and the early wickets only increased the difficulty. The captain arrived with the innings unstable and immediately chose control over aggression. Singles were rotated, loose balls were punished, and partnerships were built without unnecessary risk. While others struggled to time the ball cleanly, the captain adapted to the pitch and read the bowlers well. The required rate never became unmanageable because the innings stayed calm and organised. By the closing overs, the result felt inevitable. It was not a spectacular hundred or a wild finish, but it was an innings full of judgment, discipline, and leadership when the team needed it most."
-    />
-
+    {rendered.map(({ data, html }) => (
+      <RestaurantCard
+        name={data.name}
+        suburb={data.suburb}
+        cuisine={data.cuisine}
+        rating={data.rating}
+        halal_status={data.halal_status}
+        body={html}
+      />
+    ))}
   </section>
 
 </Base>

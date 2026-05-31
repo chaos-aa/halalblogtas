@@ -11,7 +11,7 @@ const { title, currentPage = 'home' } = Astro.props;
   <meta charset="UTF-8">
   <meta name="author" content="Taif Al-Amin">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href={`${import.meta.env.BASE_URL}/styles/style.css`}>
+  <link rel="stylesheet" href={`${import.meta.env.BASE_URL}styles/style.css`}>
   <title>{title}</title>
 </head>
 
@@ -25,10 +25,10 @@ const { title, currentPage = 'home' } = Astro.props;
     <nav>
       <ul id="navBar">
         <li id={currentPage === 'home' ? 'currentItem' : undefined}>
-          {currentPage === 'home' ? 'Home' : <a href="/">Home</a>}
+          {currentPage === 'home' ? 'Home' : <a href={`${import.meta.env.BASE_URL}`}>Home</a>}
         </li>
         <li id={currentPage === 'about' ? 'currentItem' : undefined}>
-          {currentPage === 'about' ? 'About Us' : <a href="/about">About Us</a>}
+          {currentPage === 'about' ? 'About Us' : <a href={`${import.meta.env.BASE_URL}about`}>About Us</a>}
         </li>
       </ul>
     </nav>
@@ -40,8 +40,8 @@ const { title, currentPage = 'home' } = Astro.props;
     <a href="#" id="topBtn">Scroll To Top</a>
 
     <footer>
-      © Taif Al-Amin, all respective restaurant information taken from publicly available information,
-      and belongs to the respective restaurants and organisations.
+      © Taif Al-Amin, all respective restaurant information taken from publicly available
+      information, and belongs to the respective restaurants and organisations.
     </footer>
 
   </div>
@@ -53,11 +53,9 @@ const { title, currentPage = 'home' } = Astro.props;
         button.addEventListener("click", function () {
           const storyContent = button.nextElementSibling;
           storyContent.classList.toggle("show");
-          if (storyContent.classList.contains("show")) {
-            button.textContent = "Hide Story";
-          } else {
-            button.textContent = "Read More";
-          }
+          button.textContent = storyContent.classList.contains("show")
+            ? "Hide Review"
+            : "Read Review";
         });
       });
     });

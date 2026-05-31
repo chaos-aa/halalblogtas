@@ -1,0 +1,48 @@
+---
+interface Props {
+  name: string;
+  suburb: string;
+  cuisine: string;
+  rating: number;
+  halal_status: string;
+  body: string;
+}
+
+const { name, suburb, cuisine, rating, halal_status, body } = Astro.props;
+
+// Map halal status to CSS class
+const badgeClass: Record<string, string> = {
+  'Certified':              'certified',
+  'Verified by community':  'community',
+  'Owner confirmed':        'owner',
+  'Unverified':             'unverified',
+};
+const badge = badgeClass[halal_status] ?? 'unverified';
+
+// Rating label
+const ratingLabel = rating >= 8 ? '★ Highly recommended'
+                  : rating >= 6 ? '★ Worth a visit'
+                  : '★ Mixed feelings';
+---
+
+<article class="storyCard">
+  <h3 class="storyTitle">{name}</h3>
+  <div class="storySubheading">{suburb} &mdash; {cuisine}</div>
+
+  <div class="storyMeta">
+    <span class={`halalBadge ${badge}`}>{halal_status}</span>
+  </div>
+
+  <div class="storyMeta">
+    <span class="ratingDisplay">{rating}/10 &mdash; {ratingLabel}</span>
+  </div>
+
+  <div class="keywords">
+    <span>{cuisine}</span>
+    <span>{suburb}</span>
+  </div>
+
+  <button class="storyButton">Read Review</button>
+
+  <div class="storyContent" set:html={body} />
+</article>

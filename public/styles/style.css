@@ -22,20 +22,6 @@ body {
     flex: 1;
 }
 
-.keywords {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: auto;
-}
-
-.keywords span {
-    background-color: #2e6f40;
-    border-radius: 4px;
-    padding: 4px 8px;
-    color: beige;
-}
-
 header {
     position: relative;
 }
@@ -78,6 +64,20 @@ nav {
     }
 }
 
+nav a {
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+#currentItem {
+    background-color: #2e6f40;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: beige;
+}
+
 main {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -86,9 +86,6 @@ main {
 }
 
 .siteMotto {
-    text-align: center;
-    text-transform: uppercase;
-    text-shadow: 1px 2px grey;
     font-size: 14px;
     font-weight: normal;
     margin-bottom: 20px;
@@ -99,59 +96,25 @@ main {
     border-radius: 4px;
     padding: 12px 16px;
     background-color: #f9f9f9;
-    text-transform: none;
-    text-shadow: none;
+}
+
+.siteMotto a {
+    color: #2e6f40;
 }
 
 footer {
     left: 0;
     bottom: 0;
     width: 100%;
-    padding-bottom: 5px;
+    padding: 12px;
     text-align: center;
     margin-top: auto;
     font-size: 13px;
     color: #666;
-    padding: 12px;
     border-top: 1px solid #ddd;
 }
 
-.col-span {
-    grid-column: span 3;
-}
-
-.btn {
-    border: none;
-    margin: 5px 0px 5px 0px;
-    padding: 10px 15px 10px 15px;
-    color: white;
-    text-transform: uppercase;
-    font-size: 14px;
-    background-color: white;
-    text-decoration: none;
-    cursor: default;
-    display: inline-block;
-}
-
-nav a {
-    text-decoration: none;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: inline-block;
-}
-
-#currentPage {
-    font-weight: bold;
-    color: #2e6f40;
-}
-
-#currentItem {
-    background-color: #2e6f40;
-    border-radius: 4px;
-    padding: 4px 8px;
-    color: beige;
-}
-
+/* ── RESTAURANT LIST ── */
 #pastStories {
     display: flex;
     flex-direction: column;
@@ -167,28 +130,64 @@ nav a {
 .storyTitle {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 28px;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .storySubheading {
     margin-bottom: 8px;
     font-style: italic;
+    color: #555;
 }
 
 .storyMeta {
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #555;
 }
 
-.storyContent {
-    display: none;
-    margin-top: 12px;
-    line-height: 1.5;
+/* Halal status badge */
+.halalBadge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
-.storyContent.show {
-    display: block;
+.halalBadge.certified    { background-color: #2e6f40; color: beige; }
+.halalBadge.community    { background-color: #4e8f60; color: white; }
+.halalBadge.owner        { background-color: #7aab8a; color: white; }
+.halalBadge.unverified   { background-color: #999;    color: white; }
+
+/* Rating */
+.ratingDisplay {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #2e6f40;
 }
 
+/* Keywords / tags */
+.keywords {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.keywords span {
+    background-color: #2e6f40;
+    border-radius: 4px;
+    padding: 4px 8px;
+    color: beige;
+    font-size: 13px;
+}
+
+/* Read more */
 .storyButton {
     border: none;
     margin-top: 8px;
@@ -205,6 +204,23 @@ nav a {
     opacity: 0.9;
 }
 
+.storyContent {
+    display: none;
+    margin-top: 12px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.storyContent.show {
+    display: block;
+}
+
+/* Prose inside review */
+.storyContent p {
+    margin-bottom: 10px;
+}
+
+/* Scroll to top */
 #topBtn {
     display: flex;
     position: fixed;
