@@ -386,7 +386,6 @@ footer {
 
 /* ── HALAL BADGE COLOURS (updated) ── */
 .halalBadge.certified   { background-color: #2e6f40; color: beige; }
-.halalBadge.author      { background-color: #5b9bd5; color: white; }
 .halalBadge.community   { background-color: #4a9aba; color: white; }
 .halalBadge.restaurant  { background-color: #82c45a; color: white; }
 .halalBadge.unverified  { background-color: #999;    color: white; }

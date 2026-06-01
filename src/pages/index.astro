@@ -46,8 +46,7 @@ objective view on the restaurants and should be taken as an opinion and not fact
       <div class="filterPills">
         <button class="filterPill active" data-filter="halal" data-value="all">All</button>
         <button class="filterPill" data-filter="halal" data-value="Certified">Certified</button>
-        <button class="filterPill" data-filter="halal" data-value="Author verified">Author Verified</button>
-        <button class="filterPill" data-filter="halal" data-value="Verified by community">Community Verified</button>
+        <button class="filterPill" data-filter="halal" data-value="Verified by author/community">Author/Community Verified</button>
         <button class="filterPill" data-filter="halal" data-value="Restaurant confirmed">Restaurant Confirmed</button>
         <button class="filterPill" data-filter="halal" data-value="Unverified">Unverified</button>
       </div>
@@ -82,8 +81,7 @@ objective view on the restaurants and should be taken as an opinion and not fact
         <div class="storyMeta">
           <span class={`halalBadge ${
             data.halal_status === 'Certified'              ? 'certified'  :
-            data.halal_status === 'Author verified'        ? 'author'     :
-            data.halal_status === 'Verified by community'  ? 'community'  :
+            data.halal_status === 'Verified by author/community'  ? 'community'  :
             data.halal_status === 'Restaurant confirmed'   ? 'restaurant' :
             'unverified'
           }`}>{data.halal_status}</span>
