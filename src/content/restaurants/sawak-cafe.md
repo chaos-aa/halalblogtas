@@ -4,7 +4,8 @@ suburb: "Hobart CBD"
 cuisine: "Malaysian"
 rating: 9.5
 halal_status: "Certified"
-visited: 2025-05-29
+visited: true
+visited_date: 2025-05-29
 ---
 
 Sawak Cafe is one of those places Hobart should be proud of. Tucked on Collins Street, it's been quietly serving some of the most authentic Malaysian street food in Tasmania since 2010, cooking the food that owner and chef Zye Chong grew up eating in Sarawak.

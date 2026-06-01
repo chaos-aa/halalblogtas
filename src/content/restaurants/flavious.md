@@ -4,7 +4,8 @@ suburb: "Hobart"
 cuisine: "Pizza"
 rating: 8
 halal_status: "Restaurant confirmed"
-visited: 2025-06-01
+visited: true
+visited_date: 2025-05-29
 ---
 
 Not yet visited. Halal status confirmed by owner.

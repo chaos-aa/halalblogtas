@@ -7,8 +7,9 @@ const restaurants = defineCollection({
     suburb: z.string(),
     cuisine: z.string(),
     rating: z.number().min(1).max(10),
-    halal_status: z.enum(['Certified', 'Verified by author/community', 'Restaurant confirmed', 'Unverified']),
-    visited: z.date(),
+    halal_status: z.enum(['Certified', 'Verified by community', 'Author verified', 'Restaurant confirmed', 'Unverified']),
+    visited: z.boolean().default(false),
+    visited_date: z.date().optional(),
   }),
 });
 

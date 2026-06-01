@@ -4,7 +4,8 @@ suburb: "Hobart"
 cuisine: "Nepalese"
 rating: 8
 halal_status: "Verified by author/community"
-visited: 2025-06-01
+visited: true
+visited_date: 2025-05-29
 ---
 
 Review coming soon.

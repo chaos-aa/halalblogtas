@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import RestaurantCard from '../components/RestaurantCard.astro';
 
 const restaurants = await getCollection('restaurants');
 const sorted = restaurants.sort((a, b) => b.data.rating - a.data.rating);
@@ -12,6 +11,8 @@ const rendered = await Promise.all(
     return { data: r.data, Content };
   })
 );
+
+const cuisines = [...new Set(sorted.map(r => r.data.cuisine))].sort();
 ---
 
 <Base title="Halal TakeOut Tasmania - Home" currentPage="home">
@@ -23,22 +24,63 @@ const rendered = await Promise.all(
     or if anyone wants to nominate a halal option, please reach out at
     <a href="mailto:email@example.com">email@example.com</a>
   </p>
-  <pre>
-A personal blog/list of all the halal restaurants around Hobart, Tasmania and occasionally elsewhere.
-All ratings and reviews are purely personal opinions after trying them out for myself. They do not reflect an
-objective view on the restaurants and should be taken as an opinion and not fact.
-</pre>
+
+  <!-- Filters -->
+  <div id="filterBar">
+    <div class="filterGroup">
+      <span class="filterLabel">Cuisine</span>
+      <div class="filterPills">
+        <button class="filterPill active" data-filter="cuisine" data-value="all">All</button>
+        {cuisines.map(c => (
+          <button class="filterPill" data-filter="cuisine" data-value={c}>{c}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="filterGroup">
+      <span class="filterLabel">Halal Status</span>
+      <div class="filterPills">
+        <button class="filterPill active" data-filter="halal" data-value="all">All</button>
+        <button class="filterPill" data-filter="halal" data-value="Certified">Certified</button>
+        <button class="filterPill" data-filter="halal" data-value="Author verified">Author Verified</button>
+        <button class="filterPill" data-filter="halal" data-value="Verified by community">Community Verified</button>
+        <button class="filterPill" data-filter="halal" data-value="Restaurant confirmed">Restaurant Confirmed</button>
+        <button class="filterPill" data-filter="halal" data-value="Unverified">Unverified</button>
+      </div>
+    </div>
+
+    <div class="filterGroup">
+      <span class="filterLabel">Visited</span>
+      <div class="filterPills">
+        <button class="filterPill active" data-filter="visited" data-value="all">All</button>
+        <button class="filterPill" data-filter="visited" data-value="true">✓ Visited</button>
+        <button class="filterPill" data-filter="visited" data-value="false">Not yet visited</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="resultsCount"></div>
+
   <section id="pastStories">
     {rendered.map(({ data, Content }) => (
-      <article class="storyCard">
-        <h3 class="storyTitle">{data.name}</h3>
+      <article
+        class="storyCard"
+        data-cuisine={data.cuisine}
+        data-halal={data.halal_status}
+        data-visited={String(data.visited)}
+      >
+        <h3 class="storyTitle">
+          {data.name}
+          {data.visited && <span class="visitedBadge">✓ Visited</span>}
+        </h3>
         <div class="storySubheading">{data.suburb} &mdash; {data.cuisine}</div>
 
         <div class="storyMeta">
           <span class={`halalBadge ${
-            data.halal_status === 'Certified'             ? 'certified'  :
-            data.halal_status === 'Verified by community' ? 'community'  :
-            data.halal_status === 'Owner confirmed'       ? 'owner'      :
+            data.halal_status === 'Certified'              ? 'certified'  :
+            data.halal_status === 'Author verified'        ? 'author'     :
+            data.halal_status === 'Verified by community'  ? 'community'  :
+            data.halal_status === 'Restaurant confirmed'   ? 'restaurant' :
             'unverified'
           }`}>{data.halal_status}</span>
         </div>
@@ -67,4 +109,55 @@ objective view on the restaurants and should be taken as an opinion and not fact
     ))}
   </section>
 
+  <p id="noResults" style="display:none; text-align:center; padding: 2rem; color: #888; font-style: italic;">
+    No restaurants match those filters.
+  </p>
+
 </Base>
+
+<script>
+  const state: Record<string, string> = {
+    cuisine: 'all',
+    halal: 'all',
+    visited: 'all',
+  };
+
+  function applyFilters() {
+    const cards = document.querySelectorAll<HTMLElement>('.storyCard');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const match =
+        (state.cuisine === 'all' || card.dataset.cuisine === state.cuisine) &&
+        (state.halal   === 'all' || card.dataset.halal   === state.halal)   &&
+        (state.visited === 'all' || card.dataset.visited === state.visited);
+
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+
+    const count = document.getElementById('resultsCount');
+    if (count) count.textContent = `${visible} restaurant${visible !== 1 ? 's' : ''}`;
+
+    const noResults = document.getElementById('noResults');
+    if (noResults) noResults.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('.filterPill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = btn as HTMLElement;
+      const filter = el.dataset.filter!;
+      state[filter] = el.dataset.value!;
+
+      // Update active pill in this group only
+      document.querySelectorAll<HTMLElement>(`[data-filter="${filter}"]`)
+        .forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+
+      applyFilters();
+    });
+  });
+
+  // Init count on load
+  applyFilters();
+</script>

@@ -191,10 +191,6 @@ footer {
     letter-spacing: 0.04em;
 }
 
-.halalBadge.certified  { background-color: #2e6f40; color: beige; }
-.halalBadge.community  { background-color: #4e8f60; color: white; }
-.halalBadge.owner      { background-color: #7aab8a; color: white; }
-.halalBadge.unverified { background-color: #999;    color: white; }
 
 .ratingDisplay {
     display: inline-block;
@@ -301,6 +297,132 @@ footer {
         padding: 0 8px;
         font-size: 13px;
     }
+}
+
+/* ── FILTER BAR ── */
+#filterBar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-left: 4px solid #2e6f40;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.filterLabel {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #777;
+    min-width: 5.5rem;
+}
+
+.filterPills {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.filterPill {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.15s;
+}
+
+.filterPill:hover {
+    border-color: #2e6f40;
+    color: #2e6f40;
+}
+
+.filterPill.active {
+    background: #2e6f40;
+    border-color: #2e6f40;
+    color: white;
+}
+
+#resultsCount {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ── VISITED BADGE ── */
+.visitedBadge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background-color: #e8f4ec;
+    color: #2e6f40;
+    border: 1px solid #b3d9be;
+    margin-left: 8px;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ── HALAL BADGE COLOURS (updated) ── */
+.halalBadge.certified   { background-color: #2e6f40; color: beige; }
+.halalBadge.author      { background-color: #5b9bd5; color: white; }
+.halalBadge.community   { background-color: #4a9aba; color: white; }
+.halalBadge.restaurant  { background-color: #82c45a; color: white; }
+.halalBadge.unverified  { background-color: #999;    color: white; }
+
+/* ── DARK MODE additions ── */
+body.dark #filterBar {
+    background-color: #1a1a1a;
+    border-color: #333;
+    border-left-color: #4e8f60;
+}
+
+body.dark .filterPill {
+    background: #222;
+    border-color: #444;
+    color: #aaa;
+}
+
+body.dark .filterPill:hover {
+    border-color: #4e8f60;
+    color: #4e8f60;
+}
+
+body.dark .filterPill.active {
+    background: #2e6f40;
+    border-color: #2e6f40;
+    color: white;
+}
+
+body.dark #resultsCount {
+    color: #666;
+}
+
+body.dark .visitedBadge {
+    background-color: #1a2e1f;
+    color: #4e8f60;
+    border-color: #2e6f40;
 }
 
 /* ── DARK MODE ── */
