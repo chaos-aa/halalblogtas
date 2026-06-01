@@ -3,7 +3,7 @@ name: "Cravelane"
 suburb: "Sandy Bay"
 cuisine: "Western Fusion"
 rating: 8
-halal_status: "Owner confirmed"
+halal_status: "Restaurant confirmed"
 visited: 2025-06-01
 ---
 

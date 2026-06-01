@@ -3,7 +3,7 @@ name: "Urban Greek"
 suburb: "Hobart"
 cuisine: "Greek"
 rating: 0
-halal_status: "Verified by community"
+halal_status: "Verified by author/community"
 visited: 2025-06-01
 ---
 
