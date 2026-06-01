@@ -2,7 +2,7 @@
 name: "Shemroon Cafe Kebab"
 suburb: "Hobart"
 cuisine: "Middle Eastern"
-rating: 0
+rating: 8
 halal_status: "Restaurant confirmed"
 visited: 2025-06-01
 ---

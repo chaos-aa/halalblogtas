@@ -2,7 +2,7 @@
 name: "Flavious Pizza"
 suburb: "Hobart"
 cuisine: "Pizza"
-rating: 0
+rating: 8
 halal_status: "Restaurant confirmed"
 visited: 2025-06-01
 ---
